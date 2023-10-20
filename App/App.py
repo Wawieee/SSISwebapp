@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
-from datetime import datetime
 
 app = Flask(__name__, template_folder='templates')
 
@@ -18,8 +17,6 @@ cursor = db.cursor()
 
 @app.route('/')
 def index():
-    # Display a list of students, courses, and colleges
-    # You'll need to implement the database queries here
     cursor.execute("SELECT * FROM student")
     students = cursor.fetchall()
     
@@ -36,30 +33,20 @@ def add_student():
     if request.method == 'POST':
         firstname = request.form['firstname']
         lastname = request.form['lastname']
-        course_code = request.form['course_code']
+        course_code = request.form['course_code'] 
         year = request.form['year']
         gender = request.form['gender']
-
-        # Get the current year
-        current_year = datetime.now().year
-
-        # Find the next available student ID for the current year
-        cursor.execute("SELECT IFNULL(MAX(CONVERT(SUBSTRING(id, 6), SIGNED)), 0) + 1 FROM student WHERE SUBSTRING(id, 1, 4) = %s", (current_year,))
-        next_student_id = cursor.fetchone()[0]
-
-        # Generate the new student ID
-        new_id = f"{current_year}-{str(next_student_id).zfill(4)}"
-
-        # Insert data into the database
-        cursor.execute("INSERT INTO student (id, firstname, lastname, course_code, year, gender) VALUES (%s, %s, %s, %s, %s, %s)",
-                       (new_id, firstname, lastname, course_code, year, gender))
+        
+        cursor.execute("INSERT INTO student (firstname, lastname, course_code, year, gender) VALUES (%s, %s, %s, %s, %s)",
+                       (firstname, lastname, course_code, year, gender))
         db.commit()
-
+        
         return redirect('/students')  # Redirect to the students' list
     else:
         cursor.execute("SELECT * FROM course")
         courses = cursor.fetchall()
         return render_template('add_student.html', courses=courses)
+
 
 @app.route('/students')
 def list_students():
@@ -99,7 +86,6 @@ def search_students():
     search_column = request.form['search_column']
     search_query = request.form['search_query']
 
-    # Perform a case-insensitive search query in your database using ILIKE
     cursor.execute(f"SELECT * FROM student WHERE {search_column} = %s", (search_query,))
     students = cursor.fetchall()
 
@@ -110,13 +96,12 @@ def add_course():
     if request.method == 'POST':
         code = request.form['code']
         name = request.form['name']
-        college_code = request.form['college_code']  # Updated field name
-        
-        # Insert data into the database
+        college_code = request.form['college_code']  
+
         cursor.execute("INSERT INTO course (code, name, college_code) VALUES (%s, %s, %s)", (code, name, college_code))
         db.commit()
         
-        return redirect('/courses')  # Redirect to the courses list
+        return redirect('/courses')  
     else:
         cursor.execute("SELECT * FROM college")
         colleges = cursor.fetchall()
@@ -151,10 +136,8 @@ def update_course(code):
 
 @app.route('/delete_course/<string:code>', methods=['GET'])
 def delete_course(code):
-    # First, delete the students associated with the course
     cursor.execute("DELETE FROM student WHERE course_code = %s", (code,))
     
-    # Next, delete the course
     cursor.execute("DELETE FROM course WHERE code = %s", (code,))
     
     db.commit()
@@ -167,7 +150,6 @@ def search_courses():
     search_column = request.form['search_column']
     search_query = request.form['search_query']
 
-    # Modify your database query to search in the specified column
     cursor.execute("SELECT * FROM course WHERE {} LIKE %s".format(search_column), ('%' + search_query + '%',))
     courses = cursor.fetchall()
 
@@ -179,11 +161,10 @@ def add_college():
         code = request.form['code']
         name = request.form['name']
         
-        # Insert data into the database
         cursor.execute("INSERT INTO college (code, name) VALUES (%s, %s)", (code, name))
         db.commit()
         
-        return redirect('/colleges')  # Redirect to the colleges list
+        return redirect('/colleges') 
     else:
         return render_template('add_college.html')
 
@@ -210,18 +191,15 @@ def update_college(code):
 
 @app.route('/delete_college/<string:code>', methods=['GET'])
 def delete_college(code):
-    # First, retrieve all courses associated with the college
+
     cursor.execute("SELECT code FROM course WHERE college_code = %s", (code,))
     courses = cursor.fetchall()
     
-    # Next, delete all the students associated with those courses
     for course in courses:
         cursor.execute("DELETE FROM student WHERE course_code = %s", (course[0],))
     
-    # Next, delete the courses associated with the college
     cursor.execute("DELETE FROM course WHERE college_code = %s", (code,))
     
-    # Finally, delete the college
     cursor.execute("DELETE FROM college WHERE code = %s", (code,))
     
     db.commit()
@@ -234,7 +212,6 @@ def search_colleges():
     search_column = request.form['search_column']
     search_query = request.form['search_query']
 
-    # Modify your database query to search in the specified column
     cursor.execute("SELECT * FROM college WHERE {} LIKE %s".format(search_column), ('%' + search_query + '%',))
     colleges = cursor.fetchall()
 
