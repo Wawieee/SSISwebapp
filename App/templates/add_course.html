@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Course</title>
+    <style>
+        body {
+            text-align: center; /* Center-align the content */
+            font-family: Arial, sans-serif; /* Set font-family */
+            background-color: #f4f4f4; /* Set background color */
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-top: 20px; /* Add spacing from the top */
+            color: #333; /* Set font color */
+        }
+
+        form {
+            text-align: left; /* Left-align the form */
+            display: inline-block; /* Display form elements inline */
+            margin-top: 20px; /* Add spacing from the top */
+            background-color: #fff; /* Set background color of form */
+            padding: 20px; /* Add some padding */
+            border-radius: 8px; /* Add rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow */
+        }
+
+        input, select {
+            font-size: 16px; /* Increase font size */
+            width: 100%; /* Make inputs fill the container */
+            padding: 8px; /* Add some padding */
+            margin-bottom: 10px; /* Add spacing between inputs */
+            box-sizing: border-box; /* Include padding in width */
+        }
+
+        button {
+            font-size: 16px; /* Increase font size for buttons */
+            padding: 8px 16px; /* Add some padding */
+            background-color: #007bff; /* Set button color */
+            color: #fff; /* Set text color */
+            border: none; /* Remove border */
+            border-radius: 4px; /* Add rounded corners */
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darken button color on hover */
+        }
+
+        a {
+            font-size: 16px; /* Set font size for back link */
+            text-decoration: none; /* Remove underline */
+            margin-left: 10px; /* Add spacing to the left */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Student Information System</h1>
+    </div>
+    
+    <h1>Add New Course</h1>
+    <form action="/add_course" method="post">
+        Code: <input type="text" name="code"><br>
+        Name: <input type="text" name="name"><br>
+        College Code:
+        <select name="college_code">
+            {% for college in colleges %}
+                <option value="{{ college[0] }}">{{ college[1] }}</option>
+            {% endfor %}
+        </select><br>
+        <button type="submit">Submit</button>
+        <a href="/">Back</a>
+    </form>    
+</body>
+</html>

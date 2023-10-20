@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information System</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2 {
+            color: #555;
+            font-family: 'Times New Roman', serif;
+            font-size: 24px;
+        }
+
+        table {
+            margin: auto; /* Center the table */
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px 16px;
+            border: 1px solid #ddd; /* Add border */
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 10px; /* Add spacing below buttons */
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Student Information System</h1>
+    </div>
+    
+    <a href="/students"><h2>Students</h2></a>
+    <a href="/add_student"><button>Add Student</button></a>
+    <table style="border-collapse: collapse; width: 100%;">
+        <tr>
+            <th style="border: 1px solid black; padding: 8px 16px;">ID</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">First Name</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">Last Name</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">Course Code</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">Year</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">Gender</th>
+        </tr>
+        {% for student in students %}
+            <tr>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ student[0] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ student[1] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ student[2] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ student[3] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ student[4] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ student[5] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <a href="/courses"><h2>Courses</h2></a>
+    <a href="/add_course"><button>Add Course</button></a>
+    <table style="border-collapse: collapse; width: 100%;">
+        <tr>
+            <th style="border: 1px solid black; padding: 8px 16px;">Course Name</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">Course Code</th>
+        </tr>
+        {% for course in courses %}
+            <tr>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ course[1] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ course[0] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <a href="/colleges"><h2>Colleges</h2></a>
+    <a href="/add_college"><button>Add College</button></a>
+    <table style="border-collapse: collapse; width: 100%;">
+        <tr>
+            <th style="border: 1px solid black; padding: 8px 16px;">College Name</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">College Code</th>
+        </tr>
+        {% for college in colleges %}
+            <tr>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ college[1] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ college[0] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

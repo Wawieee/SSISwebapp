@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colleges</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2 {
+            color: #555;
+            font-family: 'Times New Roman', serif;
+            font-size: 24px;
+        }
+
+        table {
+            margin: auto; 
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ddd; 
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px 16px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        form, button {
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .search-form {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .search-input {
+            font-size: 25px;
+        }
+
+        .actions {
+            width: 150px;
+        }
+    </style>
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this?");
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Student Information System</h1>
+    </div>
+    <h2>Colleges</h2>
+
+    <!-- Add search form with dropdown -->
+    <form action="/search_colleges" method="post" style="margin-bottom: 20px;">
+        <select name="search_column" style="font-size: 20px;">
+            <option value="code">Code</option>
+            <option value="name">Name</option>
+        </select>
+        <input type="text" name="search_query" placeholder="Search..." style="font-size: 25px;">
+        <button type="submit" style="font-size: 20px;">Search</button>
+        <a href="/colleges"><button type="button" style="font-size: 20px;">All</button></a>
+    </form>
+
+    <table style="border-collapse: collapse; width: 100%;">
+        <tr>
+            <th style="border: 1px solid black; padding: 8px 16px;">Code</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">Name</th>
+            <th style="border: 1px solid black; padding: 8px 16px; width: 150px;">Actions</th>
+        </tr>
+        {% for college in colleges %}
+            <tr>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ college[0] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ college[1] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px; text-align: center;">
+                    <form action="/edit_college/{{ college[0] }}" method="get" style="display: inline;">
+                        <button type="submit">Edit</button>
+                    </form>
+                    <form action="/delete_college/{{ college[0] }}" method="get" style="display: inline;" onsubmit="return confirmDelete();">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Add a back button -->
+    <br>
+    <form action="/" method="get">
+        <button type="submit">Back to Home</button>
+    </form>
+</body>
+
+</html>

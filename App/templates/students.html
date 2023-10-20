@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        h2 {
+            color: #555;
+            font-family: 'Times New Roman', serif;
+            font-size: 24px;
+        }
+
+        table {
+            margin: auto; /* Center the table */
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px 16px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        form, button {
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 9px 18px; /* Increased padding */
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this?");
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Student Information System</h1>
+    </div>
+    <h2>Students</h2>
+
+    <!-- Add search form with dropdown -->
+    <form action="/search_students" method="post" style="margin-bottom: 20px;">
+        <select name="search_column" style="font-size: 20px;">
+            <option value="id">ID</option>
+            <option value="firstname">First Name</option>
+            <option value="lastname">Last Name</option>
+            <option value="course_code">Course Code</option>
+            <option value="year">Year</option>
+            <option value="gender">Gender</option>
+        </select>
+        <input type="text" name="search_query" placeholder="Search..." style="font-size: 25px;">
+        <button type="submit" style="font-size: 20px;">Search</button>
+        <a href="/students"><button type="button" style="font-size: 20px;">All</button></a>
+    </form>
+    
+    <table style="border-collapse: collapse; width: 100%;">
+        <tr>
+            <th style="border: 1px solid black; padding: 8px 16px;">ID</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">First Name</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">Last Name</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">Course Code</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">Year</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">Gender</th>
+            <th style="border: 1px solid black; padding: 8px 16px; width: 150px;">Actions</th>
+        </tr>
+        {% for student in students %}
+            <tr>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ student[0] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ student[1] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ student[2] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ student[3] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ student[4] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ student[5] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px; text-align: center;">
+                    <form action="/edit_student/{{ student[0] }}" method="get" style="display: inline;">
+                        <button type="submit">Edit</button>
+                    </form>
+                    <form action="/delete_student/{{ student[0] }}" method="get" style="display: inline;" onsubmit="return confirmDelete();">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    <!-- Add a back button -->
+    <form action="/" method="get" style="text-align: center;">
+        <button type="submit" style="font-size: 15px;">Back to Home</button>
+    </form>
+</body>
+</html>
