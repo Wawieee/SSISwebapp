@@ -33,24 +33,32 @@ def index():
 @app.route('/add_student', methods=['GET', 'POST'])
 def add_student():
     if request.method == 'POST':
-        id = request.form['id']
         firstname = request.form['firstname']
         lastname = request.form['lastname']
-        course_code = request.form['course_code']  # Updated field name
+        course_code = request.form['course_code']
         year = request.form['year']
         gender = request.form['gender']
-        
+
+        # Get the current year
+        current_year = datetime.now().year
+
+        # Find the next available student ID for the current year
+        cursor.execute("SELECT IFNULL(MAX(CONVERT(SUBSTRING(id, 6), SIGNED)), 0) + 1 FROM student WHERE SUBSTRING(id, 1, 4) = %s", (current_year,))
+        next_student_id = cursor.fetchone()[0]
+
+        # Generate the new student ID
+        new_id = f"{current_year}-{str(next_student_id).zfill(4)}"
+
         # Insert data into the database
         cursor.execute("INSERT INTO student (id, firstname, lastname, course_code, year, gender) VALUES (%s, %s, %s, %s, %s, %s)",
-                       (id, firstname, lastname, course_code, year, gender))
+                       (new_id, firstname, lastname, course_code, year, gender))
         db.commit()
-        
+
         return redirect('/students')  # Redirect to the students' list
     else:
         cursor.execute("SELECT * FROM course")
         courses = cursor.fetchall()
         return render_template('add_student.html', courses=courses)
-
 
 @app.route('/students')
 def list_students():
@@ -95,21 +103,6 @@ def search_students():
     students = cursor.fetchall()
 
     return render_template('students.html', students=students)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @app.route('/add_course', methods=['GET', 'POST'])
 def add_course():
@@ -178,18 +171,6 @@ def search_courses():
     courses = cursor.fetchall()
 
     return render_template('courses.html', courses=courses)
-
-
-
-
-
-
-
-
-
-
-
-
 
 @app.route('/add_college', methods=['GET', 'POST'])
 def add_college():
