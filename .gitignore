@@ -1,0 +1,96 @@
+# Ignore Python bytecode files
+__pycache__/
+
+# Ignore environment-specific settings
+.env
+
+# Ignore editor and IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore database files
+*.db
+
+# Ignore log and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Ignore Python virtual environment
+venv/
+
+# Ignore dependencies (you might adjust this based on your project's dependencies)
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignore compiled Python files
+*.pyc
+*.pyo
+
+# Ignore local development configuration
+local_settings.py
+
+# Ignore database migrations
+migrations/
+
+# Ignore user-specific files
+*.bak
+*.sql
+
+# Ignore any files or directories specified in .gitignore
+.gitignore
+
+# Ignore compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Ignore archives and packages
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Ignore build output
+build/
+dist/
+
+# Ignore logs and documentation
+*.log
+doc/
+
+# Ignore node modules (for Node.js projects)
+node_modules/
+
+# Ignore compiled Java classes
+*.class
+
+# Ignore compiled C/C++ files
+*.out
+
+# Ignore compiled Ruby files
+*.gem
+
+# Ignore compiled PHP files
+*.php
+
+# Ignore development and backup files
+*.swp
+*~
+*.bak
+*.DS_Store
