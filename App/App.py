@@ -17,13 +17,13 @@ cursor = db.cursor()
 
 @app.route('/')
 def index():
-    cursor.execute("SELECT * FROM student")
+    cursor.execute("SELECT * FROM student ORDER BY id DESC LIMIT 5")
     students = cursor.fetchall()
     
-    cursor.execute("SELECT * FROM course")
+    cursor.execute("SELECT * FROM course ORDER BY code DESC LIMIT 5")
     courses = cursor.fetchall()
     
-    cursor.execute("SELECT * FROM college")
+    cursor.execute("SELECT * FROM college ORDER BY code DESC LIMIT 5")
     colleges = cursor.fetchall()
     
     return render_template('index.html', students=students, courses=courses, colleges=colleges)
