@@ -92,12 +92,14 @@
     <tr>
         <th style="border: 1px solid black; padding: 8px 16px;">Code</th>
         <th style="border: 1px solid black; padding: 8px 16px;">Name</th>
+        <th style="border: 1px solid black; padding: 8px 16px;">College Code</th>
         <th style="border: 1px solid black; padding: 8px 16px; width: 150px;">Actions</th>
     </tr>
     {% for course in courses %}
         <tr>
             <td style="border: 1px solid black; padding: 8px 16px;">{{ course[0] }}</td>
             <td style="border: 1px solid black; padding: 8px 16px;">{{ course[1] }}</td>
+            <td style="border: 1px solid black; padding: 8px 16px;">{{ course[2] }}</td>
             <td style="border: 1px solid black; padding: 8px 16px; text-align: center;">
                 <form action="/edit_course/{{ course[0] }}" method="get" style="display: inline;">
                     <button type="submit">Edit</button>
@@ -111,7 +113,6 @@
 </table>
     
 
-    <!-- Add a back button -->
     <form action="/" method="get" style="text-align: center;">
         <button type="submit">Back to Home</button>
     </form>
