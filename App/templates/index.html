@@ -114,13 +114,15 @@
     <a href="/add_course"><button>Add Course</button></a>
     <table style="border-collapse: collapse; width: 100%;">
         <tr>
-            <th style="border: 1px solid black; padding: 8px 16px;">Course Name</th>
             <th style="border: 1px solid black; padding: 8px 16px;">Course Code</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">Course Name</th>
+            <th style="border: 1px solid black; padding: 8px 16px;">College Code</th>
         </tr>
         {% for course in courses %}
             <tr>
-                <td style="border: 1px solid black; padding: 8px 16px;">{{ course[1] }}</td>
                 <td style="border: 1px solid black; padding: 8px 16px;">{{ course[0] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ course[1] }}</td>
+                <td style="border: 1px solid black; padding: 8px 16px;">{{ course[2] }}</td>
             </tr>
         {% endfor %}
     </table>
