@@ -15,7 +15,7 @@ student
 course
 - code  e.g. BSCS
 - name e.g. Bachelor of Science in Computer Science
--college => refers to college table
+- college => refers to college table
 
 college
 - code e.g. CCS
