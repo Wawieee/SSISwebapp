@@ -14,12 +14,19 @@ def get_courses():
     cur.close()
     return courses
 
-def add_student(firstname, lastname, course_code, year, gender):
+def add_student(id, firstname, lastname, course_code, year, gender):
     cur = mysql.connection.cursor()
-    cur.execute("INSERT INTO student (firstname, lastname, course_code, year, gender) VALUES (%s, %s, %s, %s, %s)",
-                (firstname, lastname, course_code, year, gender))
+    cur.execute("INSERT INTO student (id, firstname, lastname, course_code, year, gender) VALUES (%s, %s, %s, %s, %s, %s)",
+                (id, firstname, lastname, course_code, year, gender))
     mysql.connection.commit()
     cur.close()
+
+def is_student_id_unique(id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT COUNT(*) FROM student WHERE id = %s", (id,))
+    count = cur.fetchone()[0]
+    cur.close()
+    return count == 0
 
 def get_student_by_id(student_id):
     cur = mysql.connection.cursor()
@@ -28,12 +35,21 @@ def get_student_by_id(student_id):
     cur.close()
     return student
 
-# Add a function to update a student's data
-def update_student(student_id, firstname, lastname, course_code, year, gender):
+def update_student(original_student_id, student_id, firstname, lastname, course_code, year, gender):
     cur = mysql.connection.cursor()
-    cur.execute("UPDATE student SET firstname = %s, lastname = %s, course_code = %s, year = %s, gender = %s WHERE id = %s", (firstname, lastname, course_code, year, gender, student_id))
+    cur.execute(
+        "UPDATE student SET id = %s, firstname = %s, lastname = %s, course_code = %s, year = %s, gender = %s WHERE id = %s",
+        (student_id, firstname, lastname, course_code, year, gender, original_student_id))
     mysql.connection.commit()
     cur.close()
+
+
+def check_student_id_exists(student_id):
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT * FROM student WHERE id = %s", (student_id,))
+    result = cur.fetchone()
+    cur.close()
+    return result is not None
 
 def delete_student(student_id):
     cur = mysql.connection.cursor()
@@ -54,8 +70,14 @@ def search_students(search_by, search_term):
     elif search_by == 'year':
         cur.execute("SELECT * FROM student WHERE year = %s", (int(search_term),))
     elif search_by == 'gender':
-        # Convert both the search term and gender column to lowercase for case-insensitive search
         cur.execute("SELECT * FROM student WHERE LOWER(gender) = LOWER(%s)", (search_term,))
+    students = cur.fetchall()
+    cur.close()
+    return students
+
+def get_students_with_course():
+    cur = mysql.connection.cursor()
+    cur.execute("SELECT student.id, student.firstname, student.lastname, student.course_code, course.name, student.year, student.gender FROM student JOIN course ON student.course_code = course.code")
     students = cur.fetchall()
     cur.close()
     return students
