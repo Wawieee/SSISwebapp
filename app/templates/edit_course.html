@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-image: url("/static/courses.jpg"); /* Adjust the path to your image file */
+            background-image: url("/static/courses.jpg"); 
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -18,10 +18,10 @@
             margin: 0;
         }
         .container {
-            background-color: #e1e1e1; /* Set a blue background color */
-            border-radius: 10px; /* Optional: Add some border radius for style */
-            padding: 20px; /* Optional: Add some padding for space */
-            margin-top: 20px; /* Optional: Add some margin for space from top */
+            background-color: #e1e1e1;
+            border-radius: 10px; 
+            padding: 20px; 
+            margin-top: 20px;
         }
         h1 {
             text-align: center;
@@ -66,10 +66,19 @@
 <body>
     <div class="container">
         <h1>Edit Course</h1>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning text-center">
+                        <strong>{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <form action="/edit_course/{{ course[0] }}" method="post">
             <div class="form-group">
                 <label for="code">Code:</label>
-                <input type="text" id="code" name="code" class="form-control" value="{{ course[0] }}" readonly>
+                <input type="text" id="code" name="code" class="form-control" value="{{ course[0] }}" required>
             </div>
 
             <div class="form-group">
