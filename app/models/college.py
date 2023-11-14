@@ -20,9 +20,16 @@ def get_college_by_code(college_code):
     cur.close()
     return college
 
-def update_college(college_code, name):
+def check_college_code_exists(code):
     cur = mysql.connection.cursor()
-    cur.execute("UPDATE college SET name = %s WHERE code = %s", (name, college_code))
+    cur.execute("SELECT * FROM college WHERE code = %s", (code,))
+    result = cur.fetchone()
+    cur.close()
+    return result is not None
+
+def update_college(old_college_code, new_college_code, name):
+    cur = mysql.connection.cursor()
+    cur.execute("UPDATE college SET code = %s, name = %s WHERE code = %s", (new_college_code, name, old_college_code))
     mysql.connection.commit()
     cur.close()
 
