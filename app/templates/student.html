@@ -86,7 +86,7 @@
                     <option value="id">ID</option>
                     <option value="firstname">First Name</option>
                     <option value="lastname">Last Name</option>
-                    <option value="course_code">Course Code</option>
+                    <option value="course_code">Course</option>
                     <option value="year">Year</option>
                     <option value="gender">Gender</option>
                 </select>
@@ -114,8 +114,8 @@
                         <td id="id_{{ student[0] }}">{{ student[0] }}</td>
                         <td id="firstname_{{ student[0] }}">{{ student[1] }}</td>
                         <td id="lastname_{{ student[0] }}">{{ student[2] }}</td>
-                        <!-- <td id="course_code_{{ student[0] }}">{{ student[4] }} ({{ student[3] }})</td> -->
-                        <td id="course_code_{{ student[0] }}">{{ student[3] }}</td>
+                        <td id="course_code_{{ student[0] }}"><!--{{ student[6] }} --> ({{ student[3] }})</td> 
+                        <!-- <td id="course_code_{{ student[0] }}">{{ student[3] }}</td> -->
                         <td id="year_{{ student[0] }}">{{ student[4] }}</td>
                         <td id="gender_{{ student[0] }}">{{ student[5] }}</td>
                         <td>
