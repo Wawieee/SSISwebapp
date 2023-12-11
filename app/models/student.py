@@ -75,9 +75,31 @@ def search_students(search_by, search_term):
     cur.close()
     return students
 
+
+def search_students_with_course(search_by, search_term): 
+    cur = mysql.connection.cursor()
+
+    if search_by == 'id':
+        cur.execute("SELECT s.*, c.name AS course_name FROM student s LEFT JOIN course c ON s.course_code = c.code WHERE s.id LIKE %s", ('%' + search_term + '%',))
+    elif search_by == 'firstname':
+        cur.execute("SELECT s.*, c.name AS course_name FROM student s LEFT JOIN course c ON s.course_code = c.code WHERE s.firstname LIKE %s", ('%' + search_term + '%',))
+    elif search_by == 'lastname':
+        cur.execute("SELECT s.*, c.name AS course_name FROM student s LEFT JOIN course c ON s.course_code = c.code WHERE s.lastname LIKE %s", ('%' + search_term + '%',))
+    elif search_by == 'course_code':
+        cur.execute("SELECT s.*, c.name AS course_name FROM student s LEFT JOIN course c ON s.course_code = c.code WHERE s.course_code LIKE %s OR c.name LIKE %s", ('%' + search_term + '%', '%' + search_term + '%'))
+    elif search_by == 'year':
+        cur.execute("SELECT s.*, c.name AS course_name FROM student s LEFT JOIN course c ON s.course_code = c.code WHERE s.year = %s", (int(search_term),))
+    elif search_by == 'gender':
+        cur.execute("SELECT s.*, c.name AS course_name FROM student s LEFT JOIN course c ON s.course_code = c.code WHERE LOWER(s.gender) = LOWER(%s)", (search_term,))
+
+    students = cur.fetchall()
+    cur.close()
+    return students
+
+
 def get_students_with_course():
     cur = mysql.connection.cursor()
-    cur.execute("SELECT student.id, student.firstname, student.lastname, student.course_code, course.name, student.year, student.gender FROM student JOIN course ON student.course_code = course.code")
+    cur.execute("SELECT student.id, student.firstname, student.lastname, student.course_code, student.year, student.gender, course.name FROM student JOIN course ON student.course_code = course.code")
     students = cur.fetchall()
     cur.close()
     return students
