@@ -1,17 +1,25 @@
 from flask import render_template, request, redirect, url_for, flash
 from app import app
 from app.models.course import get_courses, add_course, get_course_by_code, update_course, delete_course, search_courses, check_course_code_exists, get_courses_with_college
-from app.models.student import get_students, add_student, get_student_by_id, update_student, delete_student, search_students, check_student_id_exists, get_students_with_course
+from app.models.student import get_students, add_student, get_student_by_id, update_student, delete_student, search_students, check_student_id_exists, get_students_with_course, search_students_with_course
 from app.models.college import get_colleges, add_college, get_college_by_code, update_college, delete_college, search_colleges, check_college_code_exists
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-"""
+
 @app.route('/students')
 def students():
     students = get_students_with_course()
+    return render_template('student.html', students=students)
+
+@app.route('/search_student', methods=['POST'])
+def search_student():
+    search_by = request.form['search_by']
+    search_term = request.form['search_term']
+    
+    students = search_students_with_course(search_by, search_term)
     return render_template('student.html', students=students)
 """
 
@@ -19,6 +27,17 @@ def students():
 def students():
     students = get_students()
     return render_template('student.html', students=students, courses=get_courses())
+    
+@app.route('/search_student', methods=['POST'])
+def search_student():
+    search_by = request.form['search_by']
+    search_term = request.form['search_term']
+    
+    students = search_students(search_by, search_term)
+    return render_template('student.html', students=students)
+
+"""
+
 
 @app.route('/add_student', methods=['GET', 'POST'])
 def add_student_route():
@@ -70,14 +89,6 @@ def delete_student_route(student_id):
     delete_student(student_id)
     flash(f'Student successfully deleted!', 'success')
     return redirect('/students')
-
-@app.route('/search_student', methods=['POST'])
-def search_student():
-    search_by = request.form['search_by']
-    search_term = request.form['search_term']
-    
-    students = search_students(search_by, search_term)
-    return render_template('student.html', students=students)
 
 @app.route('/colleges')
 def colleges():
